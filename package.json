@@ -6,6 +6,7 @@
   "scripts": {
     "model": "npx sequelize model:generate --name $modelName --attributes $fields",
     "migrate": "npx sequelize db:migrate",
+    "migrate-undo": "npx sequelize db:migrate:$undo",
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

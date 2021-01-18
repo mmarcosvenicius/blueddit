@@ -1,4 +1,5 @@
-const models = require('../models');
+const UserService = require('../services/userService')
+
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -6,9 +7,9 @@ class UserController {
 
     //Sign up
     signUp(req, res) {
-        models.User.findOne({where:{email:req.body.email}}).then(result => {
+        UserService.findOne(req.body.email).then(result => {
             if(result){
-                res.status(409).json({
+                return res.status(409).json({
                     message: "Email already exists!",
                 });
             }else{
@@ -20,30 +21,32 @@ class UserController {
                             password: hash
                         }
                     
-                        models.User.create(user).then(result => {
-                            res.status(201).json({
+                        UserService.create(user).then(result => {
+                            return res.status(201).json({
                                 message: "User created successfully",
                             });
                         }).catch(error => {
-                            res.status(500).json({
-                                message: "Something went wrong!",
+                            return res.status(500).json({
+                                message: "Something went wrong!"
                             });
                         });
                     });
                 });
+                
             }
         }).catch(error => {
-            res.status(500).json({
+            return res.status(500).json({
                 message: "Something went wrong!",
+                err: error
             });
         });
     }
     
     //login
     login(req, res) {
-        models.User.findOne({where:{email: req.body.email}}).then(user => {
+        UserService.findOne(req.body.email).then(user => {
             if(user === null){
-                res.status(401).json({
+                return res.status(401).json({
                     message: "Invalid credentials!",
                 });
             }else{
@@ -56,13 +59,13 @@ class UserController {
                         process.env.SECRET_JWT_KEY,
                         {expiresIn : "24h"},
                         function(err, token){
-                            res.status(200).json({
+                            return res.status(200).json({
                                 message: "Authentication successful!",
                                 token: token
                             });
                         });
                     }else{
-                        res.status(401).json({
+                        return res.status(401).json({
                             message: "Invalid credentials!",
                         });
                     }
