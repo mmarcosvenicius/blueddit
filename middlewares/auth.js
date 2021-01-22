@@ -9,7 +9,7 @@ class Auth {
       const token = req.headers.authorization.split(" ")[1];
       const decodedToken = jwt.verify(
         token,
-        process.env.SECRET_JWT_KEY || "secreto"
+        process.env.SECRET_JWT_KEY
       );
       req.userData = decodedToken;
       next();

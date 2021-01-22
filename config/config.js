@@ -1,9 +1,9 @@
 module.exports = {
   development: {
-    username: process.env.DEVELOP_USER || "root",
-    password: process.env.DEVELOP_PASSWORD || "root",
-    database: process.env.DEVELOP_DATABASE || "blueddit",
-    host: process.env.DEVELOP_HOST || "127.0.0.1",
+    username: process.env.DEVELOP_USER,
+    password: process.env.DEVELOP_PASSWORD,
+    database: process.env.DEVELOP_DATABASE,
+    host: process.env.DEVELOP_HOST,
     dialect: "mysql",
   },
   test: {

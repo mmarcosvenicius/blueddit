@@ -65,7 +65,7 @@ class UserController {
                     email: user.email,
                     userId: user.id,
                   },
-                  process.env.SECRET_JWT_KEY || "secreto",
+                  process.env.SECRET_JWT_KEY,
                   { expiresIn: "24h" },
                   function (err, token) {
                     return res.status(200).json({
