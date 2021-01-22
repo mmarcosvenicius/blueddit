@@ -1,5 +1,10 @@
 const postService = require("../services/postService");
 const Validator = require("fastest-validator");
+const models = require("../models");
+
+const Op = models.Sequelize.Op;
+
+const { getPagination, getPagingData } = require("../utils/pagination");
 
 class PostController {
   async save(req, res) {
@@ -42,7 +47,12 @@ class PostController {
 
     try {
       const response = await postService.show(id);
-      return res.status(200).json(response);
+      if (response) {
+        return res.status(200).json(response);
+      }
+      return res.status(404).json({
+        message: "Post not found",
+      });
     } catch (error) {
       return res.status(500).json({
         message: "Something went wrong!",
@@ -96,7 +106,7 @@ class PostController {
         errors: validationResponse,
       });
     }
-    try {   
+    try {
       const [response] = await postService.update(updatedPost, { id, userId });
       if (response) {
         return res.status(200).json({
@@ -141,6 +151,25 @@ class PostController {
     } catch (error) {
       return res.status(200).json({
         message: "Something went wrong",
+        error,
+      });
+    }
+  }
+
+  
+  async findAllPaginated(req, res) {
+    
+  const { page, size, description } = req.query;
+  const condition = description ? { description: { [Op.like]: `%${description}%` } } : {};
+  const { limit, offset } = getPagination(page, size);
+
+    try {
+      const response = await postService.findAllPaginated(condition, limit, offset);
+      const paginated = getPagingData(response, page, limit);
+      return res.status(200).json(paginated);
+    } catch (error) {
+      return res.status(500).json({
+        message: "Something went wrong!",
         error,
       });
     }

@@ -1,8 +1,8 @@
 const PostRepository = require("../repositories/postRepository");
 
 class PostService {
-  async save(user) {
-    return await PostRepository.save(user);
+  async save(post) {
+    return await PostRepository.save(post);
   }
 
   async show(id) {
@@ -11,6 +11,10 @@ class PostService {
 
   async findAll() {
     return await PostRepository.findAll();
+  }
+
+  async findAllPaginated(condition, limit, offset) {
+    return await PostRepository.findAllPaginated(condition, limit, offset);
   }
 
   async update(post, obj) {
