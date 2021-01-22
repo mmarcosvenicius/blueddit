@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const commentController = require("./controllers/commentController");
 const postController = require("./controllers/postController");
 const userController = require("./controllers/userController");
 
@@ -16,5 +17,11 @@ routes.get("/posts", auth.checkAuth, postController.index);
 routes.get("/posts/:id", auth.checkAuth, postController.show);
 routes.patch("/posts/:id", auth.checkAuth, postController.update);
 routes.delete("/posts/:id", auth.checkAuth, postController.delete);
+
+routes.post("/comments", auth.checkAuth, commentController.save);
+routes.get("/comments", auth.checkAuth, commentController.index);
+routes.get("/comments/:id", auth.checkAuth, commentController.show);
+routes.patch("/comments/:id/:userId", auth.checkAuth, commentController.update);
+routes.delete("/comments/:id/:userId", auth.checkAuth, commentController.delete);
 
 module.exports = routes;
