@@ -32,7 +32,7 @@ class PostController {
       const response = await postService.save(post);
       return res.status(201).json({
         message: "Post created successfully",
-        post: response,
+        data: response,
       });
     } catch (error) {
       return res.status(500).json({
@@ -48,7 +48,10 @@ class PostController {
     try {
       const response = await postService.show(id);
       if (response) {
-        return res.status(200).json(response);
+        return res.status(200).json({
+          message: 'Data obtained successfully',
+          data: response
+        });
       }
       return res.status(404).json({
         message: "Post not found",
@@ -76,7 +79,10 @@ class PostController {
 
     try {
       const response = await postService.findAll();
-      return res.status(200).json(response);
+      return res.status(200).json({
+        message: 'Data obtained successfully',
+        data: response
+      });
     } catch (error) {
       return res.status(500).json({
         message: "Something went wrong!",
@@ -111,7 +117,7 @@ class PostController {
       if (response) {
         return res.status(200).json({
           message: "Post updated successfully",
-          post: updatedPost,
+          data: updatedPost,
           response,
         });
       }
@@ -140,7 +146,7 @@ class PostController {
       if (response) {
         return res.status(200).json({
           message: "Post deleted successfully",
-          post: updatedPost,
+          data: updatedPost,
           response,
         });
       }
@@ -166,7 +172,10 @@ class PostController {
     try {
       const response = await postService.findAllPaginated(condition, limit, offset);
       const paginated = getPagingData(response, page, limit);
-      return res.status(200).json(paginated);
+      return res.status(200).json({
+        message: 'Data obtained successfully',
+        data: paginated
+      });
     } catch (error) {
       return res.status(500).json({
         message: "Something went wrong!",
